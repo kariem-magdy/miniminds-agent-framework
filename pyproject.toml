@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "dotenv>=0.9.9",
     "groq>=0.36.0",
+    "langfuse>=3.10.6",
     "loguru>=0.7.3",
     "pandas>=2.3.3",
     "playwright>=1.56.0",

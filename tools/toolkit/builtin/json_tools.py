@@ -12,8 +12,6 @@ def json_is_valid(s: str) -> bool:
     Returns:
         True if the string is valid JSON, False otherwise.
     """
-    #TODO: implement function with details and why llm need it ?
-    # YOUR_ANSWER: ...
     try:
         json.loads(s)
         return True

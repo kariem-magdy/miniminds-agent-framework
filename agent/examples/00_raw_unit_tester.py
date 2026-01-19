@@ -50,17 +50,14 @@ messages = [
         """ 
     }
 ]
-# TODO: 1.3 create tool register and add tools/modules you need
 registry = ToolRegistry()
 registry.register_from_module(web_explorer_tools)
 registry.register_from_module(code_tools)
 registry.register_from_module(file_tools)
 registry.register_from_module(json_tools)
 
-# TODO: 1.4 add tools to system_message use str.format method and  registery.to_string()
 messages[0]["content"] = messages[0]["content"].replace("{tools}", registry.to_string())
 
-# TODO: 1.5 set `files_under_test` and `tests_output_directory_path` in user_message like .format
 messages[1]["content"] = messages[1]["content"].format(
     files_under_test=str(files_under_test),
     tests_output_directory_path=str(tests_output_directory_path)
@@ -73,19 +70,12 @@ while True:
     iteration += 1
     logger.info(f"Iteration {iteration}")
     
-    # TODO 2.1 call client (provide tools in .generate) with registery.to_openai_tools()
-    # Note: Groq uses OpenAI-compatible tool format
     client_tools = registry.to_client_tools(config.provider)
     response = client.generate(messages, tools=client_tools)
     
-    # TODO 2.2 append assistant message (role, content, **tool_calls**) *log it logger.info*
     messages.append(response)
     logger.info(f"Assistant Response: {response.get('content')}")
 
-    # TODO get content and check if is finished
-    # 2.3 Stop when one of the conditions happen
-    # 2.3 'finished' in response['content'] -- handle response['content']=None case
-    # 2.3 exceed max_iterations
     content = response.get("content") or ""
     
     if iteration > max_iterations:
@@ -107,13 +97,11 @@ while True:
         except json.JSONDecodeError:
             pass # Continue if not valid json or not finished
     
-    # 2.4 execute any function execturion inside `tool_calls` || handle if it's None or not passed
     tool_calls = response.get("tool_calls", []) or []
     for tool_call in tool_calls:
         if tool_call["type"] != "function":
             continue
         try:
-            # TODO: extract func_name, args and call it -> set tool_message {content: result}
             func_name = tool_call["function"]["name"]
             args_raw = tool_call["function"]["arguments"]
             

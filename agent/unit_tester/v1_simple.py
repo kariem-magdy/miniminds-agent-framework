@@ -5,7 +5,6 @@ from pathlib import Path
 
 class SimpleUnitTesterAgent(Agent):
     def __init__(self, llm: LLMClient,  max_iterations: int = 100):
-        # TODO: create tool_registery with what you want
         tool_registry = ToolRegistry
         tool_registry.register_from_module(code_tools)
         tool_registry.register_from_module(file_tools)
@@ -14,10 +13,6 @@ class SimpleUnitTesterAgent(Agent):
 
         super().__init__(llm, tool_registry, max_iterations)
         
-        # TODO: inialize state
-        # TODO 1: read prompts/unit_tester_v1.txt
-        # TODO 2: format system prompt with tools
-        # TODO 3: add system message to inital_state
         self.inital_state = BaseAgentState()
         
         # 1: Read System Prompt
@@ -41,24 +36,19 @@ class SimpleUnitTesterAgent(Agent):
         return state
     
     def run(self, state: BaseAgentState) -> BaseAgentState:
-        # TODO 1) Call LLM
         response = self.llm_generate(state)
 
 
-        # TODO 2) Add assistant response use state.add_message
         state.add_message(role="assistant", content=response.get("content"), tool_calls=response.get("tool_calls"))
 
-        # TODO 3) Set Stop condition
         content = response.get("content") or ""
         if "finished" in content.lower() and "message" in content.lower():
              state.is_finished = True
 
-        # TODO 4) Execute tool calls if any
         tool_calls = response.get("tool_calls")
         if tool_calls:
             for tc in tool_calls:
                 tool_msg = self.call_tool(tc)
                 state.messages.append(tool_msg)
         
-        # TODO 5) return what ?
         return state

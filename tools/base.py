@@ -32,8 +32,6 @@ class Tool:
         """
         Return a string representation of the tool,
         """
-        # TODO: complete function with proper string output
-        # TODO: if there's session_id as argname skip it as we inject it
         visible_args = [f"{name}: {annot}" for name, annot in self.arguments if name != "session_id"]
         args_str = ", ".join(visible_args)
         
@@ -134,7 +132,6 @@ class Tool:
         """
         Invoke the underlying function (callable) with provided arguments.
         """
-        # TODO complete the function + inject session_id=self.session_id
         func_arg_names = [arg[0] for arg in self.arguments]
         if "session_id" in func_arg_names and self.session_id:
             kwargs["session_id"] = self.session_id

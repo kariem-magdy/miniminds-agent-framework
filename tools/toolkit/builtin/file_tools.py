@@ -9,7 +9,6 @@ def list_directory_files(path: str = ".", depth: int = 1) -> dict:
     Returns a dictionary with success/error status and result/message.
     """
     try:
-        # TODO:
         base = Path(path)
         if not base.exists():
             return {"success": False, "error": f"Path not found: {path}"}
@@ -47,7 +46,6 @@ def write_file(file_path: str, content: str) -> dict:
     Returns a dictionary with success/error status and result/message.
     """
     try:
-        # TODO:
         p = Path(file_path)
         if not p.parent.exists():
             p.parent.mkdir(parents=True, exist_ok=True)
@@ -62,7 +60,6 @@ def create_folder(folder_path: str) -> dict:
     Create a new folder (directory) at the specified path.
     Returns a dictionary with success/error status and result/message.
     """
-    # TODO:
     try:
         p = Path(folder_path)
         if p.exists():
@@ -79,7 +76,6 @@ def remove_folder(folder_path: str) -> dict:
     Returns a dictionary with success/error status and result/message.
     """
     try:
-        # TODO:
         p = Path(folder_path)
         if not p.is_dir():
             return {"success": False, "error": f"Folder not found: {folder_path}"}

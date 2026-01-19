@@ -30,13 +30,9 @@ def tool(name: str = None, description: str = None):
                 else str(return_annotation)
             )
 
-        # TODO: set func_description and func_name
-        # TODO: Use the function's docstring as the description (default if None)
         func_description = description or func.__doc__ or "No description provided."
-        # TODO: The function name becomes the Tool name
         func_name = name or func.__name__
 
-        # TODO: Return a new Tool instance
         return Tool(
             name=func_name,
             description=func_description,

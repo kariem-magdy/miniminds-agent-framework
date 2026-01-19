@@ -6,18 +6,12 @@ import json
 
 class ScratchpadUnitTesterAgent(Agent):
     def __init__(self, llm: LLMClient,  max_iterations: int = 100):
-        # TODO: create tool_registery with what you want
         tool_registry = ToolRegistry()
         tool_registry.register_from_module(code_tools)
         tool_registry.register_from_module(file_tools)
         tool_registry.register_from_module(json_tools)
         
         super().__init__(llm, tool_registry, max_iterations)
-        
-        # TODO: inialize state
-        # TODO 1: read prompts/unit_tester_v2.txt
-        # TODO 2: format system prompt with tools
-        # TODO 3: add system message to inital_state
         
         self.inital_state = BaseAgentState()
         
@@ -38,12 +32,10 @@ class ScratchpadUnitTesterAgent(Agent):
         return state
     
     def run(self, state: BaseAgentState) -> BaseAgentState:
-        # TODO 1) Call LLM
         response = self.llm_generate(state)
         content = response.get("content") or ""
         tool_calls = response.get("tool_calls") or []
         
-        # TODO 2) **PRUNE PREVIOUSE OUTPUTs (what should I keep?) ** + Add assistant response
         persistent_messages = [
             msg for msg in state.messages 
             if msg["role"] in ["system", "user"]
@@ -57,7 +49,6 @@ class ScratchpadUnitTesterAgent(Agent):
             tool_calls=tool_calls
         )
 
-        # TODO 3) Set Stop condition
         try:
             # Basic cleanup for markdown code blocks (```json ... ```)
             clean_content = content.strip()
@@ -75,12 +66,10 @@ class ScratchpadUnitTesterAgent(Agent):
         except Exception as e:
             logger.error(f"Error checking stop condition: {e}")
 
-        # TODO 4) Execute tool calls if any
         if tool_calls:
             for tool_call in tool_calls:
                 # This returns a dictionary: {'role': 'tool', ...}
                 tool_msg = self.call_tool(tool_call)
                 state.messages.append(tool_msg)
         
-        # TODO 5) return what ?
         return state

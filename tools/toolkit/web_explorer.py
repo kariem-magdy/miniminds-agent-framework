@@ -16,13 +16,6 @@ def goto_url(url: str, session_id: str = "default") -> str:
     except Exception as e:
         return f"Failed to navigate to {url}: {str(e)}"
 
-"""
-TODO: Read this comment
-These two functions -> `get_page_content` and `click_element`
-were originally written by me as simple, very general helpers with several easy TODOs left inside.
-BUT then the unit_tester agent ran tests on them, the tests failed, and it decided to rewrite them into much more sophisticated versions.
-The funny part? I didn't even notice until now, when I came back to remove the answers.
-"""
 @tool()
 def get_page_content(mode: Literal["text", "html"] = "text", session_id: str = "default") -> str:
     """
@@ -91,7 +84,6 @@ def click_element(selector: str, session_id: str = "default") -> str:
     except Exception as e:
         return f"Failed to click '{selector}': {str(e)}"
 
-# TODO: add tool by name `fill_input` to select input field and write in it
 @tool()
 def fill_input(selector: str, value: str, session_id: str = "default") -> str:
     "Fill a form input field."
@@ -103,8 +95,6 @@ def fill_input(selector: str, value: str, session_id: str = "default") -> str:
     except Exception as e:
         return f"Failed to fill input '{selector}': {str(e)}"
     
-# TODO: add tool `screenshot` to take screenshot of current page and return it in format AI can read
-# TODO: search on how to pass images to LLMs (there's a main format)
 @tool()
 def screenshot(full_page: bool = False, session_id: str = "default") -> str:
     "Take a screenshot of the current page and return as base64."
@@ -118,7 +108,6 @@ def screenshot(full_page: bool = False, session_id: str = "default") -> str:
     except Exception as e:
         return f"Failed to take screenshot: {str(e)}"
 
-# TODO: add tool `end_browsing_page` to close page -> return string represent state (i.e error | success etc...)
 @tool()
 def end_browsing_page(session_id: str = "default") -> str:
     "Close the page (use only when done browsing)."

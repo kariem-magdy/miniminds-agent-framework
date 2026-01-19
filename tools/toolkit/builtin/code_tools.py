@@ -10,7 +10,6 @@ def run_python_file(file_path: str) -> dict:
     Returns output as a dictionary with success/error status and result/message.
     """
     try:
-        # TODO:
         p = Path(file_path)
         if not p.is_file():
             return {"success": False, "error": f"File not found: {file_path}"}
@@ -28,7 +27,6 @@ def run_pytest_tests(directory: str = ".") -> dict:
     Returns output as a dictionary with success/error status and result/message.
     """
     try:
-        # TODO:
         p = Path(directory)
         if not p.is_dir():
             return {"success": False, "error": f"Directory not found: {directory}"}

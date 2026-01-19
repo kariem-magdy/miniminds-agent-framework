@@ -44,9 +44,6 @@ class Agent(ABC):
 
     def iterate(self, *args, **kwargs) -> BaseAgentState:
         state = self.start_point(*args, **kwargs)
-        # TODO: iteration schema alwayse same regarding `self.run(state)``
-        # TODO: istate.is_finished or state.iteration > self.max_iteration
-        # TODO: while: run()
         while not state.is_finished and state.iteration < self.max_iterations:
             logger.debug(f"Agent Iteration: {state.iteration}")
             state = self.run(state)
@@ -57,7 +54,6 @@ class Agent(ABC):
     # LLM WRAPPER
     @observe(name="llm-call", as_type="generation")
     def llm_generate(self, state: BaseAgentState):
-        # TODO: wrap code to generate from llm -- self.tool_registry.to_client_tools to convert to client format
         client_tools = self.tool_registry.to_client_tools(self.llm.config.provider)
         response_dict = self.llm.generate(state.messages, tools=client_tools)
         return response_dict
@@ -65,7 +61,6 @@ class Agent(ABC):
     # TOOL EXECUTION WRAPPER
     @observe(name="tool-call", as_type="tool")
     def call_tool(self, tool_call):
-        # TODO: wrap code to execute function with error pron and tracing here
         try:
             func_name = tool_call['function']['name']
             args = json.loads(tool_call['function']['arguments'])
